@@ -1,3 +1,6 @@
 # SHANTI-KI-AUR
 HAMARA UDDESHY ASHANTI SE SHANTI KI AUR
-![Logo](1777210190036.png)
+div align="center">
+  <img src="1777210190036.png" width="300">
+  <h2>HAMARA UDDESHY: ASHANTI SE SHANTI KI AUR</h2>
+</div>
