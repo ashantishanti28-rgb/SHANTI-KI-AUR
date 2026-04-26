@@ -6,122 +6,29 @@
     <title>Hamara Uddeshya - Shanti Ki Aur</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            text-align: center; 
-            background: #fdfcf0; /* Royal Cream Background */
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+        body { font-family: 'Poppins', sans-serif; text-align: center; background: #fdfcf0; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .box { background: white; padding: 30px 20px; border-radius: 15px; border: 5px double #800000; outline: 2px solid #D4AF37; width: 90%; max-width: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
+        img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #D4AF37; margin-bottom: 10px; object-fit: cover; }
+        h2 { color: #800000; font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 20px; }
+        input { width: 85%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #D4AF37; background: #fffcf5; font-size: 16px; outline: none; }
+        button { width: 95%; padding: 14px; background: #800000; color: #D4AF37; border: 1px solid #D4AF37; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 15px; text-transform: uppercase; }
         
-        /* Shahi Box Styling */
-        .box { 
-            background: white; 
-            padding: 35px 25px; 
-            border-radius: 15px; 
-            /* Double Border for Royal Look */
-            border: 5px double #800000; 
-            outline: 2px solid #D4AF37;
-            display: inline-block; 
-            width: 85%; 
-            max-width: 350px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
-            position: relative;
-        }
-
-        /* Profile Image / Logo Styling */
-        img { 
-            width: 110px; 
-            height: 110px;
-            border-radius: 50%; 
-            border: 3px solid #D4AF37; 
-            margin-bottom: 15px; 
-            object-fit: cover;
-        }
-
-        h2 { 
-            color: #800000; 
-            font-family: 'Playfair Display', serif;
-            font-size: 18px; 
-            margin-bottom: 25px; 
-            letter-spacing: 1px;
-            line-height: 1.4;
-        }
-
-        /* Inputs Styling */
-        input { 
-            width: 85%; 
-            padding: 12px; 
-            margin: 10px 0; 
-            border-radius: 5px; 
-            border: 1px solid #D4AF37; 
-            background: #fffcf5;
-            font-size: 16px; 
-            outline: none;
-        }
-
-        input:focus {
-            border: 2px solid #800000;
-        }
-
-        /* Button Styling */
-        button { 
-            width: 95%; 
-            padding: 14px; 
-            background: #800000; /* Royal Maroon */
-            color: #D4AF37; /* Gold Text */
-            border: 1px solid #D4AF37; 
-            border-radius: 5px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            font-size: 16px; 
-            margin-top: 15px; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #5d0000;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        #team-page { 
-            display: none; 
-        }
-
-        .welcome-text {
-            color: #1b5e20; /* Deep Green */
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, #D4AF37, transparent);
-            margin: 20px 0;
-        }
-
-        .mission-text {
-            color: #333;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 14px;
-        }
+        #team-page { display: none; }
+        
+        .welcome-text { color: #1b5e20; font-family: 'Playfair Display', serif; font-size: 22px; font-weight: bold; }
+        .program-card { background: #fffcf5; border: 1px solid #D4AF37; padding: 15px; margin-top: 15px; border-radius: 8px; text-align: left; }
+        .program-card h3 { color: #800000; font-size: 16px; margin: 0 0 10px 0; border-bottom: 1px solid #D4AF37; padding-bottom: 5px; }
+        .program-card p { font-size: 14px; color: #333; line-height: 1.6; margin: 0; }
+        .divider { height: 1px; background: linear-gradient(to right, transparent, #D4AF37, transparent); margin: 20px 0; }
     </style>
 </head>
 <body>
 
     <div id="login-screen" class="box">
         <img src="1777210190036.png" alt="Logo">
-        <h2>HAMARA UDDESHYA<br><span style="font-size: 14px; color: #555;">ASHANTI SE SHANTI KI AUR</span></h2>
-        <input type="text" id="mob" placeholder="Mobile Number">
-        <input type="password" id="pw" placeholder="Password (test0716)">
+        <h2>HAMARA UDDESHYA<br><span style="font-size: 12px; color: #555;">ASHANTI SE SHANTI KI AUR</span></h2>
+        <input type="text" id="mob" placeholder="Mobile Number (10 Digits)">
+        <input type="password" id="pw" placeholder="Password">
         <button onclick="checkIn()">LOGIN</button>
     </div>
 
@@ -130,10 +37,20 @@
         <p style="color:#555; font-style: italic; font-size: 14px;">Aapka Digital System Chalu Hai.</p>
         
         <div class="divider"></div>
+
+        <div class="program-card">
+            <h3>📋 MISSION PROGRAM</h3>
+            <p>• Tanav-mukt samaj ki shuruat.<br>
+               • Rozana 2 ghante counseling seva.<br>
+               • Ashanti se Shanti ki aur ek kadam.</p>
+        </div>
+
+        <div class="program-card">
+            <h3>👥 TEAM DASHBOARD</h3>
+            <p>Aap mission ke sakriya sadasya hain. Jald hi naye updates yahan dikhenge.</p>
+        </div>
         
-        <p class="mission-text">Mission: Shanti Ki Aur</p>
-        
-        <button style="background:#800000; color: #D4AF37;" onclick="location.reload()">LOGOUT</button>
+        <button style="background:#5d0000; margin-top: 25px;" onclick="location.reload()">LOGOUT</button>
     </div>
 
     <script>
@@ -141,23 +58,27 @@
             var m = document.getElementById('mob').value;
             var p = document.getElementById('pw').value;
             
+            // 10 Mobile Numbers ki List
             var team = {
                 "9568111616": "GURU0716",
                 "9927963150": "SUNIL DIXIT",
-                "2222222222": "Sadasya 2",
-                "3333333333": "Sadasya 3",
-                "4444444444": "Sadasya 4",
-                "5555555555": "Sadasya 5",
-                "6666666666": "Sadasya 6",
-                "7777777777": "Sadasya 7"
+                "9000000001": "Sadasya 3",
+                "9000000002": "Sadasya 4",
+                "9000000003": "Sadasya 5",
+                "9000000004": "Sadasya 6",
+                "9000000005": "Sadasya 7",
+                "9000000006": "Sadasya 8",
+                "9000000007": "Sadasya 9",
+                "9000000008": "Sadasya 10"
             };
 
+            // Password sabke liye 'test0716' rakha hai
             if (team[m] && p === "test0716") {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('team-page').style.display = 'block';
                 document.getElementById('welcome-msg').innerText = "Swaagat hai, " + team[m] + "!";
             } else { 
-                alert("Maafi chahte hain, details galat hain!"); 
+                alert("Kshama karein! Mobile number ya Password galat hai."); 
             }
         }
     </script>
