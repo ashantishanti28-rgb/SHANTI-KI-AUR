@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -7,163 +8,104 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Aapke Logo Colours */
         .bg-maroon { background-color: #800000; }
         .text-maroon { color: #800000; }
-        .bg-skyblue { background-color: #87CEEB; }
-        .border-silver { border-color: #C0C0C0; }
-        
-        .stat-card { border-radius: 12px; border-bottom: 4px solid #C0C0C0; transition: 0.3s; }
-        .stat-card:hover { transform: scale(1.02); }
         .hidden { display: none; }
-        .sos-alert { background: #fff1f2; border-left: 6px solid #800000; animation: blink 2s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        .admin-box { border: 2px solid #800000; background: #fff5f5; padding: 15px; border-radius: 12px; }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
-
-    <div id="loginSection" class="min-h-screen flex items-center justify-center p-4 bg-slate-100">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border-t-8 border-maroon">
-            <div class="p-8 text-center">
-                <img src="https://ashantishanti28-rgb.github.io/SHANTI-KI-AUR/1777210190036.png" class="w-24 h-24 mx-auto rounded-full border-4 border-silver mb-4 shadow-lg">
-                <h2 class="text-2xl font-black text-maroon uppercase tracking-tighter">अधिकारी लॉगिन</h2>
-                <p class="text-gray-500 text-xs font-bold uppercase tracking-widest mt-1">Hamara Uddeshya Mission</p>
+    <div id="loginSection" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border-t-8 border-maroon p-8">
+            <div class="text-center mb-6">
+                <img src="https://ashantishanti28-rgb.github.io/SHANTI-KI-AUR/1777210190036.png" class="w-20 h-20 mx-auto rounded-full mb-2 shadow">
+                <h2 class="text-xl font-black text-maroon uppercase">मिशन लॉगिन</h2>
             </div>
-            <div class="px-8 pb-8 space-y-4">
-                <input type="tel" id="userMobile" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-maroon outline-none font-bold" placeholder="मोबाइल नंबर">
-                <input type="password" id="userPass" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-maroon outline-none" placeholder="पासवर्ड">
-                <button onclick="checkLogin()" class="w-full bg-maroon text-white font-black py-4 rounded-xl shadow-xl hover:bg-red-900 transition-all uppercase tracking-widest">प्रवेश करें</button>
-                <button onclick="showPublicForm()" class="w-full text-maroon font-bold text-xs underline mt-2">आम जनता हेतु फॉर्म (Public Form)</button>
-            </div>
+            <input type="tel" id="userMobile" class="w-full p-4 border rounded-xl mb-4 font-bold text-center" placeholder="ID (MOBILE)">
+            <input type="password" id="userPass" class="w-full p-4 border rounded-xl mb-4 text-center" placeholder="PASSWORD">
+            <button onclick="checkLogin()" class="w-full bg-maroon text-white font-black py-4 rounded-xl shadow-lg uppercase">लॉगिन</button>
         </div>
     </div>
 
     <div id="portalSection" class="hidden min-h-screen flex flex-col">
-        <header class="bg-maroon text-white p-4 flex justify-between items-center shadow-2xl border-b-4 border-silver">
-            <div class="flex items-center space-x-3">
-                <img src="https://ashantishanti28-rgb.github.io/SHANTI-KI-AUR/1777210190036.png" class="w-10 h-10 rounded-full bg-white p-0.5">
-                <h1 class="text-sm md:text-lg font-black uppercase tracking-tighter">हमारा उद्देश्य : शांति की ओर</h1>
-            </div>
-            <button onclick="location.reload()" class="bg-white text-maroon text-[10px] font-black px-4 py-2 rounded-full uppercase shadow-inner">लॉगआउट</button>
+        <header class="bg-maroon text-white p-4 flex justify-between items-center border-b-4 border-gray-200">
+            <h1 class="text-xs font-black uppercase">हमारा उद्देश्य : कंट्रोल रूम</h1>
+            <button onclick="location.reload()" class="bg-white text-maroon text-[9px] font-black px-3 py-1 rounded-full shadow">EXIT</button>
         </header>
-
-        <div class="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="stat-card bg-white p-5 shadow-md">
-                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">कुल सन्दर्भ</p>
-                    <h3 id="countTotal" class="text-3xl font-black text-maroon">0</h3>
-                </div>
-                <div class="stat-card bg-white p-5 shadow-md border-b-skyblue">
-                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">निस्तारित</p>
-                    <h3 id="countSolved" class="text-3xl font-black text-blue-400">0</h3>
-                </div>
-                <div class="stat-card bg-white p-5 shadow-md border-b-yellow-500">
-                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">लम्बित</p>
-                    <h3 id="countPending" class="text-3xl font-black text-yellow-600">0</h3>
-                </div>
-                <div class="stat-card bg-white p-5 shadow-md border-b-red-600">
-                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">SOS अलर्ट</p>
-                    <h3 id="countSOS" class="text-3xl font-black text-red-600">0</h3>
-                </div>
+        <main class="p-4 space-y-6 max-w-7xl mx-auto w-full">
+            <div id="adminPanel" class="hidden admin-box">
+                <h3 class="text-maroon font-black text-[10px] uppercase mb-3">टीम डायरेक्टरी (10 मेम्बर्स)</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-2" id="memberGrid"></div>
             </div>
-
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-silver">
-                <div class="bg-gray-50 p-5 border-b flex justify-between items-center">
-                    <h3 class="font-black text-maroon uppercase text-sm"><i class="fas fa-database mr-2"></i> सन्दर्भों का विवरण (Data Log)</h3>
-                    <span id="userLabel" class="text-[10px] font-bold bg-maroon text-white px-3 py-1 rounded-full"></span>
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+                <div class="bg-gray-50 p-4 border-b flex justify-between items-center">
+                    <h3 class="text-xs font-black text-maroon uppercase">सन्दर्भों की सूची</h3>
+                    <button onclick="loadData()" class="text-[10px] font-bold text-blue-600">REFRESH</button>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-100 text-gray-600 font-black uppercase tracking-widest">
+                    <table class="w-full text-left text-[11px]">
+                        <thead class="bg-slate-50 text-gray-500 uppercase font-black border-b">
                             <tr>
-                                <th class="p-5">समय / दिनांक</th>
-                                <th class="p-5">मोबाइल नंबर</th>
-                                <th class="p-5">श्रेणी</th>
-                                <th class="p-5">समस्या का विवरण</th>
-                                <th class="p-5">कार्यवाही</th>
+                                <th class="p-4">दिनांक</th>
+                                <th class="p-4">मोबाइल</th>
+                                <th class="p-4">मेम्बर</th>
+                                <th class="p-4">विवरण</th>
                             </tr>
                         </thead>
-                        <tbody id="caseList" class="divide-y">
-                            </tbody>
+                        <tbody id="caseList" class="divide-y italic"></tbody>
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div id="publicFormSection" class="hidden min-h-screen bg-skyblue flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden border-t-8 border-maroon">
-            <div class="p-8 text-center bg-gray-50 border-b">
-                <h2 class="text-2xl font-black text-maroon uppercase">मदद के लिए विवरण दें</h2>
-                <p class="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest italic">आपका डेटा सुरक्षित और गोपनीय है</p>
-            </div>
-            <div class="p-8 space-y-4">
-                <input type="tel" id="pMobile" placeholder="आपका मोबाइल नंबर" class="w-full p-4 bg-gray-50 border-2 rounded-xl text-lg font-bold outline-none focus:border-maroon">
-                <textarea id="pMessage" rows="5" class="w-full p-4 bg-gray-50 border-2 rounded-xl outline-none focus:border-maroon" placeholder="अपनी समस्या विस्तार से लिखें..."></textarea>
-                <button onclick="submitData('PUBLIC_USER', 'pMobile', 'pMessage', 'sos')" class="w-full bg-maroon text-white font-black py-5 rounded-xl shadow-2xl hover:bg-red-900 transition-all uppercase tracking-widest">मदद के लिए भेजें</button>
-                <button onclick="location.reload()" class="w-full text-gray-400 font-bold uppercase text-[10px]">वापस जाएँ</button>
-            </div>
-        </div>
+        </main>
     </div>
 
     <script>
-        const ALLOWED_USERS = { "9568111616": "admin786", "9927963150": "sunil786" };
-        let loggedInUser = "";
-        let isAdmin = false;
-        // GOOGLE SCRIPT URL NICHE DALEN
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwK_RCqXqXDUFTJcRCbBuMj3UaduwUjVfNfOCk9sL8jtQD98gn6mn_PSqA7S3EaYNaH/exec';
+        const TEAM_MEMBERS = {
+            "9568111616": { name: "GURU JI", pass: "admin786", role: "ADMIN" },
+            "9927963150": { name: "SUNIL JI", pass: "sunil786", role: "MEMBER" },
+            "9000000001": { name: "MEMBER 3", pass: "pass003", role: "MEMBER" },
+            "9000000002": { name: "MEMBER 4", pass: "pass004", role: "MEMBER" },
+            "9000000003": { name: "MEMBER 5", pass: "pass005", role: "MEMBER" },
+            "9000000004": { name: "MEMBER 6", pass: "pass006", role: "MEMBER" },
+            "9000000005": { name: "MEMBER 7", pass: "pass007", role: "MEMBER" },
+            "9000000006": { name: "MEMBER 8", pass: "pass008", role: "MEMBER" },
+            "9000000007": { name: "MEMBER 9", pass: "pass009", role: "MEMBER" },
+            "9000000008": { name: "MEMBER 10", pass: "pass010", role: "MEMBER" }
+        };
 
-        function showPublicForm() {
-            document.getElementById('loginSection').classList.add('hidden');
-            document.getElementById('publicFormSection').classList.remove('hidden');
-        }
+        let loggedInUser = ""; let isAdmin = false;
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbxhEPyu7wNh77vVbQPd9O5bzpjbTNDa9HX3l8Y-aRv1J1UnXJ5Tr1aCGL8a94/exec';
 
         function checkLogin() {
             const m = document.getElementById('userMobile').value;
             const p = document.getElementById('userPass').value;
-            if (ALLOWED_USERS[m] && ALLOWED_USERS[m] === p) {
-                loggedInUser = m; isAdmin = (m === "9568111616");
+            if (TEAM_MEMBERS[m] && TEAM_MEMBERS[m].pass === p) {
+                loggedInUser = m; isAdmin = (TEAM_MEMBERS[m].role === "ADMIN");
                 document.getElementById('loginSection').classList.add('hidden');
                 document.getElementById('portalSection').classList.remove('hidden');
-                document.getElementById('userLabel').innerText = isAdmin ? "GURU JI" : "MEMBER: " + m;
+                if(isAdmin) { document.getElementById('adminPanel').classList.remove('hidden'); renderGrid(); }
                 loadData();
-            } else { alert("लॉगिन विफल!"); }
+            } else { alert("गलत पासवर्ड या आईडी!"); }
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('memberGrid'); grid.innerHTML = "";
+            for (let mob in TEAM_MEMBERS) {
+                grid.innerHTML += `<div class="bg-white p-2 border rounded shadow-sm text-center"><p class="text-[9px] font-black text-maroon">${TEAM_MEMBERS[mob].name}</p><p class="text-[8px] text-gray-400">${mob}</p></div>`;
+            }
         }
 
         async function loadData() {
             const list = document.getElementById('caseList');
-            list.innerHTML = "<tr><td colspan='5' class='p-10 text-center font-bold text-gray-400 italic'>डेटा लोड हो रहा है...</td></tr>";
+            list.innerHTML = "<tr><td colspan='4' class='p-10 text-center font-bold'>Loading...</td></tr>";
             try {
                 const response = await fetch(`${scriptUrl}?action=read&user=${loggedInUser}&admin=${isAdmin}`);
-                const data = await response.json();
-                list.innerHTML = "";
-                let sosCount = 0;
+                const data = await response.json(); list.innerHTML = "";
                 data.reverse().forEach(item => {
-                    const isSOS = item.tension === 'sos'; if(isSOS) sosCount++;
-                    list.innerHTML += `
-                        <tr class="border-b hover:bg-gray-50 ${isSOS ? 'sos-alert' : ''}">
-                            <td class="p-5 font-bold text-gray-500">${new Date(item.timestamp).toLocaleString('hi-IN')}</td>
-                            <td class="p-5 font-black text-maroon text-sm">${item.mobile}</td>
-                            <td class="p-5"><span class="px-2 py-1 rounded-full text-[9px] font-black uppercase ${isSOS ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}">${isSOS ? '🚨 SOS Alert' : 'Regular'}</span></td>
-                            <td class="p-5 text-gray-600 italic">${item.message}</td>
-                            <td class="p-5"><button class="bg-maroon text-white px-3 py-1 rounded text-[9px] font-black uppercase shadow">Nistaran</button></td>
-                        </tr>`;
+                    list.innerHTML += `<tr><td class="p-4 text-gray-500 font-bold">${new Date(item.timestamp).toLocaleDateString()}</td><td class="p-4 font-black text-maroon">${item.mobile}</td><td class="p-4 text-blue-700 uppercase font-bold">${item.team}</td><td class="p-4 text-gray-700">${item.message}</td></tr>`;
                 });
-                document.getElementById('countTotal').innerText = data.length;
-                document.getElementById('countSOS').innerText = sosCount;
-                document.getElementById('countPending').innerText = data.length;
-            } catch (e) { list.innerHTML = "<tr><td colspan='5' class='p-10 text-center text-red-500 font-bold'>कनेक्शन त्रुटि!</td></tr>"; }
-        }
-
-        async function submitData(team, mobId, msgId, typeVal) {
-            const mobile = document.getElementById(mobId).value;
-            const message = document.getElementById(msgId).value;
-            if(!mobile || !message) return alert("अधूरा डेटा!");
-            const btn = event.target; btn.disabled = true; btn.innerText = "भेजा जा रहा है...";
-            await fetch(scriptUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ team, mobile, message, tension: typeVal }) });
-            alert("डेटा सफलतापूर्वक सुरक्षित किया गया!");
-            location.reload();
+            } catch (e) { list.innerHTML = "<tr><td colspan='4' class='p-10 text-center text-red-500'>Error loading data.</td></tr>"; }
         }
     </script>
 </body>
-                     </html>
+</html>
