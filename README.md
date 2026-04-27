@@ -1,173 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHANTI-KI-AUR | Admin Dashboard</title>
+    <title>Admin Dashboard - Mission Control</title>
     <style>
-        :root {
-            --maroon: #800000;
-            --skyblue: #87CEEB;
-            --silver: #C0C0C0;
-            --white: #ffffff;
-        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        .header { background: #800000; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 1.2rem; }
+        
+        /* Dashboard Stats Grid */
+        .stats-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }
+        .card { padding: 15px; border-radius: 5px; color: white; position: relative; text-align: right; }
+        .blue { background: #2a5298; } .green { background: #2d935c; } .teal { background: #17a2b8; } .red { background: #c0392b; }
+        .card .title { font-size: 0.8rem; display: block; text-align: left; opacity: 0.9; }
+        .card .number { font-size: 1.8rem; font-weight: bold; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            display: flex;
-            background-color: #f0f2f5;
-        }
-
-        /* Sidebar Navigation */
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            background-color: var(--maroon);
-            color: var(--white);
-            position: fixed;
-            padding-top: 20px;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            font-size: 1.2rem;
-            border-bottom: 1px solid var(--silver);
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .sidebar-link {
-            padding: 15px 25px;
-            display: block;
-            color: var(--white);
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .sidebar-link:hover {
-            background-color: var(--skyblue);
-            color: var(--maroon);
-        }
-
-        /* Main Content Area */
-        .main-content {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            padding: 20px;
-        }
-
-        .header {
-            background-color: var(--white);
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border-bottom: 3px solid var(--skyblue);
-        }
-
-        /* Admin Table Styling */
-        .admin-section {
-            background-color: var(--white);
-            margin-top: 30px;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .admin-section h3 {
-            color: var(--maroon);
-            margin-bottom: 20px;
-            border-left: 5px solid var(--skyblue);
-            padding-left: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th {
-            background-color: var(--skyblue);
-            color: var(--maroon);
-            padding: 12px;
-            text-align: left;
-            border-bottom: 2px solid var(--silver);
-        }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-            color: #333;
-        }
-
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        .badge {
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            background-color: #e8f4fd;
-            color: #007bff;
-            font-weight: bold;
-        }
+        /* Admin Table Section */
+        .admin-section { background: white; margin: 15px; border-radius: 8px; border-top: 4px solid #f39c12; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .section-title { padding: 10px; background: #f39c12; color: white; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; font-size: 0.9rem; }
+        th { background: #f8f9fa; color: #333; }
+        
+        /* Action Buttons */
+        .btn-edit { background: #2a5298; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+        .save-panel { display: none; padding: 15px; background: #e8f4fd; border: 1px solid #b8daff; margin: 10px; border-radius: 5px; }
+        input { padding: 8px; margin: 5px 0; width: 90%; border: 1px solid #ccc; border-radius: 4px; }
+        .btn-save { background: #2d935c; color: white; border: none; padding: 10px; width: 100%; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <h2>SHANTI-KI-AUR</h2>
-        <a href="#" class="sidebar-link">Dashboard</a>
-        <a href="#" class="sidebar-link">Mission Reports</a>
-        <a href="#" class="sidebar-link" style="background-color: var(--skyblue); color: var(--maroon);">Admin Panel</a>
-        <a href="#" class="sidebar-link">Settings</a>
-        <a href="#" class="sidebar-link">Logout</a>
+<div class="header">मिशन कंट्रोल रूम - एडमिन पैनल</div>
+
+<div class="stats-container">
+    <div class="card blue">
+        <span class="title">कुल सदस्य</span>
+        <div class="number">10</div>
     </div>
+    <div class="card green">
+        <span class="title">एक्टिव मेंबर्स</span>
+        <div class="number">08</div>
+    </div>
+    <div class="card teal">
+        <span class="title">पेंडिंग अपडेट</span>
+        <div class="number">21</div>
+    </div>
+    <div class="card red">
+        <span class="title">डिफाल्टर</span>
+        <div class="number">0</div>
+    </div>
+</div>
 
-    <div class="main-content">
-        <div class="header">
-            <h1 style="color: var(--maroon); margin: 0;">Admin Control Panel</h1>
-            <div style="text-align: right;">
-                <strong>Date:</strong> 27 April 2026<br>
-                <span style="color: var(--skyblue);">Admin Logged In</span>
-            </div>
-        </div>
+<div class="admin-section">
+    <div class="section-title">टीम प्रबंधन (Team Management)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>नाम</th>
+                <th>मोबाइल</th>
+                <th>एक्शन</th>
+            </tr>
+        </thead>
+        <tbody id="memberList">
+            <tr>
+                <td>GURU JI</td>
+                <td>9568111616</td>
+                <td><button class="btn-edit" onclick="showEdit('GURU JI', '9568111616')">Edit</button></td>
+            </tr>
+            <tr>
+                <td>SUNIL JI</td>
+                <td>9927963150</td>
+                <td><button class="btn-edit" onclick="showEdit('SUNIL JI', '9927963150')">Edit</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-        <div class="admin-section">
-            <h3>Member Credentials & Directory</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>S.No.</th>
-                        <th>Member Name</th>
-                        <th>Mobile Number</th>
-                        <th>Login Password</th>
-                        <th>Role</th>
-                    </tr>
-                </thead>
-                <tbody id="memberTable">
-                    <tr><td>1</td><td>Member One</td><td>+91 XXXXXXXX01</td><td>Pass@123</td><td><span class="badge">Active</span></td></tr>
-                    <tr><td>2</td><td>Member Two</td><td>+91 XXXXXXXX02</td><td>Pass@456</td><td><span class="badge">Active</span></td></tr>
-                    <tr><td>3</td><td>Member Three</td><td>+91 XXXXXXXX03</td><td>Pass@789</td><td><span class="badge">Active</span></td></tr>
-                    <tr><td>4</td><td>Member Four</td><td>+91 XXXXXXXX04</td><td>Pass@101</td><td><span class="badge">Active</span></td></tr>
-                    <tr><td>5</td><td>Member Five</td><td>+91 XXXXXXXX05</td><td>Pass@102</td><td><span class="badge">Active</span></td></tr>
-                    <tr><td>6</td><td>Member Six</td><td>+91 XXXXXXXX06</td><td>Pass@103</td><td><span class="badge">Active</span></td></tr>
-                    <tr><td>7</td><td>Member Seven</td><td>+91 XXXXXXXX07</td><td>Pass@104</td><td><span class="badge">Active</span></td></tr>
-                    <tr><td>8</td><td>Member Eight</td><td>+91 XXXXXXXX08</td><td>Pass@105</td><td><span class="badge">Active</span></td></tr>
-                    <tr><td>9</td><td>Member Nine</td><td>+91 XXXXXXXX09</td><td>Pass@106</td><td><span class="badge">Active</span></td></tr>
-                    <tr><td>10</td><td>Member Ten</td><td>+91 XXXXXXXX10</td><td>Pass@107</td><td><span class="badge">Active</span></td></tr>
-                </tbody>
-            </table>
-        </div>
+<div id="editPanel" class="save-panel">
+    <h3 id="editMemberName" style="margin-top:0;">Edit Member</h3>
+    <label>नया मोबाइल नंबर:</label>
+    <input type="text" id="newPhone" placeholder="Mobile Number">
+    <label>नया पासवर्ड:</label>
+    <input type="password" id="newPass" placeholder="New Password">
+    <button class="btn-save" onclick="saveChanges()">डेटा अपडेट करें</button>
+</div>
+
+<script>
+    function showEdit(name, phone) {
+        document.getElementById('editPanel').style.display = 'block';
+        document.getElementById('editMemberName').innerText = name + " की सेटिंग्स";
+        document.getElementById('newPhone').value = phone;
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function saveChanges() {
+        let phone = document.getElementById('newPhone').value;
+        let pass = document.getElementById('newPass').value;
         
-        <p style="margin-top: 20px; font-size: 0.9rem; color: #666; text-align: center;">
-            &copy; 2026 Mission SHANTI-KI-AUR - Service to Humanity
-        </p>
-    </div>
+        if(phone == "" || pass == "") {
+            alert("कृपया सभी जानकारी भरें");
+            return;
+        }
+
+        // Yahan aap apna backend logic ya database update function dal sakte hain
+        alert("सफलतापूर्वक अपडेट किया गया: \nMobile: " + phone + "\nPassword: " + pass);
+        document.getElementById('editPanel').style.display = 'none';
+    }
+</script>
 
 </body>
 </html>
