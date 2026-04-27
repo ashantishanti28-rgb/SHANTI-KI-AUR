@@ -3,131 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamara Uddeshya - Mission Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>SHANTI-KI-AUR | Mission Control Room</title>
     <style>
-        .gradient-admin { background: linear-gradient(135deg, #800000 0%, #a52a2a 100%); }
-        .hidden { display: none; }
-        .logo-ring { border: 3px double #800000; padding: 5px; border-radius: 50%; background: white; }
+        :root { --maroon: #800000; --skyblue: #87CEEB; --silver: #c0c0c0; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; margin: 0; }
+        
+        /* Login Style */
+        .login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--maroon); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .login-box { background: white; padding: 30px; border-radius: 15px; width: 320px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        button { background: var(--maroon); color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
+        
+        /* Main Dashboard Style */
+        .header { background: var(--maroon); color: white; padding: 15px; text-align: center; border-bottom: 5px solid var(--silver); }
+        .container { padding: 20px; max-width: 1200px; margin: auto; display: none; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; border-top: 5px solid var(--skyblue); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* Team Grid */
+        .section-title { background: var(--skyblue); color: white; padding: 10px; border-radius: 5px; margin: 20px 0 10px; font-weight: bold; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+        .member-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; text-align: center; }
+        
+        /* Admin Only Section */
+        #admin-panel { display: none; background: #fff; padding: 15px; border-radius: 10px; margin-top: 20px; border: 2px solid var(--maroon); }
+        iframe { width: 100%; height: 500px; border: none; margin-top: 10px; }
     </style>
 </head>
-<body class="bg-[#fdfcf0] font-sans min-h-screen">
+<body>
 
-    <div id="loginSection" class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm border-2 border-[#D4AF37] text-center">
-            <img src="https://ashantishanti28-rgb.github.io/SHANTI-KI-AUR/1777210190036.png" alt="Logo" class="w-32 h-32 mx-auto mb-4 logo-ring">
-            <h1 class="text-2xl font-bold text-[#800000] uppercase tracking-tighter">Hamara Uddeshya</h1>
-            <p class="text-[10px] text-gray-500 mb-6 font-bold italic border-b pb-2 tracking-widest text-[#D4AF37]">ASHANTI SE SHANTI KI AUR</p>
-            
-            <div class="space-y-4">
-                <input type="tel" id="userMobile" placeholder="Mobile Number (10 Digits)" class="w-full p-4 border-2 border-gray-100 rounded-xl outline-none focus:border-[#800000] font-bold text-center bg-gray-50 shadow-inner">
-                <input type="password" id="userPass" placeholder="Password" class="w-full p-4 border-2 border-gray-100 rounded-xl outline-none focus:border-[#800000] text-center bg-gray-50 shadow-inner">
-                <button onclick="checkLogin()" class="w-full gradient-admin text-white font-bold py-4 rounded-xl shadow-lg active:scale-95 transition-all uppercase tracking-widest text-sky-100">Unlock Portal</button>
-                <p id="loginError" class="text-red-600 text-[10px] hidden font-bold mt-2 uppercase animate-pulse">Kshama karein! Number ya Password galat hai.</p>
-            </div>
+<div class="login-overlay" id="login-section">
+    <div class="login-box">
+        <h2 style="color: var(--maroon);">मिशन लॉगिन</h2>
+        <input type="text" id="username" placeholder="यूजरनेम (e.g. admin, member1)">
+        <input type="password" id="password" placeholder="पासवर्ड">
+        <button onclick="handleLogin()">प्रवेश करें</button>
+        <p id="error" style="color: red; font-size: 12px; margin-top: 10px; display: none;">गलत यूजरनेम या पासवर्ड!</p>
+    </div>
+</div>
+
+<div id="main-content" class="container">
+    <div class="header">
+        <h1 style="margin:0;">SHANTI-KI-AUR</h1>
+        <p style="margin:5px 0 0;">मिशन कंट्रोल रूम - डैशबोर्ड</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card"><h3>कुल सन्दर्भ</h3><div style="font-size: 24px; color: var(--maroon);">124</div></div>
+        <div class="stat-card"><h3>निस्तारित</h3><div style="font-size: 24px; color: green;">98</div></div>
+        <div class="stat-card"><h3>लम्बित</h3><div style="font-size: 24px; color: orange;">26</div></div>
+        <div class="stat-card"><h3>SOS अलर्ट</h3><div style="font-size: 24px; color: red;">02</div></div>
+    </div>
+
+    <div class="section-title">टीम के सदस्य (10 Active)</div>
+    <div class="team-grid" id="team-list">
         </div>
+
+    <div id="admin-panel">
+        <div class="section-title" style="background: var(--maroon);">एडमिन मास्टर कंट्रोल (Google Sheet View)</div>
+        <p>यहाँ से आप पूरा डेटा मैनेज कर सकते हैं:</p>
+        <iframe src="https://docs.google.com/spreadsheets/d/e/YOUR_SHEET_ID/pubhtml"></iframe>
     </div>
 
-    <div id="portalSection" class="hidden">
-        <header class="gradient-admin text-white p-5 shadow-xl text-center border-b-4 border-[#D4AF37]">
-            <h1 class="text-xl font-bold uppercase tracking-tight">MISSION DATA ENTRY</h1>
-            <p id="activeUser" class="text-[10px] italic opacity-80 mt-1"></p>
-        </header>
+    <button onclick="location.reload()" style="margin-top: 20px; background: #555;">लॉगआउट</button>
+</div>
 
-        <main class="max-w-md mx-auto p-4 mt-6">
-            <div class="bg-white rounded-3xl shadow-2xl p-6 border-t-8 border-[#800000]">
-                <form id="entryForm" class="space-y-5">
-                    <div>
-                        <label class="block text-[10px] font-black text-gray-400 mb-1 uppercase">Pariwadi Mobile Number</label>
-                        <input type="tel" id="mobile" placeholder="Shikayatkarta ka Mobile" pattern="[0-9]{10}" class="w-full p-4 border-2 border-gray-100 rounded-2xl outline-none font-bold focus:border-red-800" required>
-                    </div>
+<script>
+    // --- ADMIN: YAHAN APNE PASSWORDS SET KAREIN ---
+    const userDB = {
+        "admin": "MASTER@123",    // Aapka Master Password
+        "member1": "MEM123",      // Member 1 ka password
+        "member2": "MEM456",      // Member 2 ka password
+        "member3": "PASS789",
+        "member4": "PASS000",
+        // Isi tarah baki 10 tak list bana lein
+    };
 
-                    <div>
-                        <label class="block text-[10px] font-black text-red-800 mb-1 text-center uppercase tracking-tighter italic">Vivad Star (Tension Level)</label>
-                        <input type="range" id="tension" min="0" max="100" value="50" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-800">
-                    </div>
+    function handleLogin() {
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
 
-                    <div>
-                        <label class="block text-[10px] font-black text-gray-400 mb-1 uppercase">Vivad ka Vivaran (Short Message)</label>
-                        <textarea id="message" rows="3" class="w-full p-4 border-2 border-gray-100 rounded-2xl outline-none font-medium focus:border-red-800" placeholder="Yahan vistar se likhein..." required></textarea>
-                    </div>
-
-                    <button type="submit" id="submitBtn" class="w-full gradient-admin text-white font-black py-5 rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-widest text-sky-100">Data Surakshit Karein</button>
-                </form>
-                <div id="status" class="hidden mt-6 p-4 rounded-2xl text-center font-black text-[10px] border-2 uppercase tracking-widest"></div>
-            </div>
-            <button onclick="location.reload()" class="w-full mt-8 text-gray-400 text-[10px] font-bold underline uppercase tracking-widest">Logout from Portal</button>
-        </main>
-    </div>
-
-    <script>
-        // --- 1. LOGIN SECURITY SYSTEM ---
-        const ALLOWED_USERS = { 
-            "9568111616": "admin786", 
-            "9927963150": "sunil786",
-            "9000000001": "pass01" 
-        };
-
-        let loggedInMobile = "";
-
-        function checkLogin() {
-            const m = document.getElementById('userMobile').value;
-            const p = document.getElementById('userPass').value;
-            const error = document.getElementById('loginError');
-
-            if (ALLOWED_USERS[m] && ALLOWED_USERS[m] === p) {
-                loggedInMobile = m;
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('portalSection').classList.remove('hidden');
-                document.getElementById('activeUser').innerText = "Namaste: " + m;
-            } else {
-                error.classList.remove('hidden');
-                setTimeout(() => error.classList.add('hidden'), 3000);
-            }
-        }
-
-        // --- 2. GOOGLE SHEET CONNECTION ---
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwK_RCqXqXDUFTJcRCbBuMj3UaduwUjVfNfOCk9sL8jtQD98gn6mn_PSqA7S3EaYNaH/exec';
-
-        document.getElementById('entryForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const status = document.getElementById('status');
+        if (userDB[u] && userDB[u] === p) {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
             
-            btn.disabled = true;
-            btn.innerHTML = 'DATA SAVING...';
-            status.classList.remove('hidden');
-            status.className = 'mt-6 p-4 rounded-2xl text-center bg-blue-50 text-blue-700 border-blue-200 animate-pulse font-bold';
-            status.innerHTML = 'Connecting to Google Cloud...';
+            // Agar Admin login karega toh Sheet dikhegi
+            if (u === "admin") {
+                document.getElementById('admin-panel').style.display = 'block';
+            }
+            loadTeam();
+        } else {
+            document.getElementById('error').style.display = 'block';
+        }
+    }
 
-            const formData = {
-                team: loggedInMobile, // Login number sheet mein jayega
-                mobile: document.getElementById('mobile').value,
-                message: document.getElementById('message').value,
-                tension: document.getElementById('tension').value
-            };
-
-            fetch(scriptUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            })
-            .then(() => {
-                status.className = 'mt-6 p-4 rounded-2xl text-center bg-green-600 text-white shadow-xl font-black border-green-800';
-                status.innerHTML = '✅ SHABAASH! DATA SAVE HO GAYA';
-                document.getElementById('entryForm').reset();
-                btn.disabled = false;
-                btn.innerHTML = 'AGLI ENTRY KAREIN';
-                setTimeout(() => status.classList.add('hidden'), 5000);
-            })
-            .catch(error => {
-                status.className = 'mt-6 p-4 rounded-2xl text-center bg-red-600 text-white font-bold';
-                status.innerHTML = '❌ NETWORK ERROR: RE-TRY KAREIN';
-                btn.disabled = false;
-                btn.innerHTML = 'RETRY';
-            });
+    function loadTeam() {
+        const team = ["GURU JI", "SUNIL JI", "VIKAS JI", "MEMBER 4", "MEMBER 5", "MEMBER 6", "MEMBER 7", "MEMBER 8", "MEMBER 9", "MEMBER 10"];
+        let html = "";
+        team.forEach(m => {
+            html += `<div class="member-card"><strong>${m}</strong><br><span style="font-size:10px; color:#666;">Active</span></div>`;
         });
-    </script>
+        document.getElementById('team-list').innerHTML = html;
+    }
+</script>
+
 </body>
 </html>
