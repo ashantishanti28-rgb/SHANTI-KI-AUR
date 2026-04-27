@@ -1,106 +1,173 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHANTI-KI-AUR | Admin Master</title>
+    <title>SHANTI-KI-AUR | Admin Dashboard</title>
     <style>
-        :root { --maroon: #800000; --skyblue: #87CEEB; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; }
-        
-        /* Login Overlay */
-        #login-screen { position: fixed; inset: 0; background: var(--maroon); display: flex; justify-content: center; align-items: center; z-index: 9999; }
-        .login-box { background: white; padding: 30px; border-radius: 12px; width: 300px; text-align: center; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-        .btn-login { background: var(--maroon); color: white; border: none; padding: 10px; width: 100%; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        :root {
+            --maroon: #800000;
+            --skyblue: #87CEEB;
+            --silver: #C0C0C0;
+            --white: #ffffff;
+        }
 
-        /* Main Content - Initially Hidden */
-        #main-wrapper { display: none; }
-        
-        .header { background: var(--maroon); color: white; padding: 15px; text-align: center; border-bottom: 4px solid #c0c0c0; }
-        .admin-controls { padding: 20px; text-align: center; background: #fff; border-bottom: 1px solid #ddd; }
-        .btn-toggle { background: #28a745; color: white; border: none; padding: 12px 25px; cursor: pointer; border-radius: 5px; font-size: 16px; font-weight: bold; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            background-color: #f0f2f5;
+        }
 
-        /* Dashboard Area - Hidden until button click */
-        #dashboard-area { display: none; padding: 20px; }
-        
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; border-top: 5px solid var(--skyblue); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        iframe { width: 100%; height: 600px; border: none; margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: var(--maroon);
+            color: var(--white);
+            position: fixed;
+            padding-top: 20px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 1.2rem;
+            border-bottom: 1px solid var(--silver);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-link {
+            padding: 15px 25px;
+            display: block;
+            color: var(--white);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sidebar-link:hover {
+            background-color: var(--skyblue);
+            color: var(--maroon);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 20px;
+        }
+
+        .header {
+            background-color: var(--white);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-bottom: 3px solid var(--skyblue);
+        }
+
+        /* Admin Table Styling */
+        .admin-section {
+            background-color: var(--white);
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .admin-section h3 {
+            color: var(--maroon);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--skyblue);
+            padding-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th {
+            background-color: var(--skyblue);
+            color: var(--maroon);
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--silver);
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            background-color: #e8f4fd;
+            color: #007bff;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
-    <div class="login-box">
-        <h2 style="color:var(--maroon)">मिशन एक्सेस</h2>
-        <input type="text" id="user" placeholder="यूजरनेम">
-        <input type="password" id="pass" placeholder="पासवर्ड">
-        <button class="btn-login" onclick="validateLogin()">प्रवेश करें</button>
-    </div>
-</div>
-
-<div id="main-wrapper">
-    <div class="header">
-        <h1>SHANTI-KI-AUR MISSION</h1>
-        <p>प्रशासक पैनल (Admin Panel)</p>
+    <div class="sidebar">
+        <h2>SHANTI-KI-AUR</h2>
+        <a href="#" class="sidebar-link">Dashboard</a>
+        <a href="#" class="sidebar-link">Mission Reports</a>
+        <a href="#" class="sidebar-link" style="background-color: var(--skyblue); color: var(--maroon);">Admin Panel</a>
+        <a href="#" class="sidebar-link">Settings</a>
+        <a href="#" class="sidebar-link">Logout</a>
     </div>
 
-    <div class="admin-controls">
-        <h3 id="welcome-msg">स्वागत है, एडमिन</h3>
-        <p>डैशबोर्ड और डेटा देखने के लिए नीचे दिए गए बटन पर क्लिक करें।</p>
-        <button class="btn-toggle" id="toggleBtn" onclick="toggleDashboard()">डैशबोर्ड खोलें (Open Dashboard)</button>
-        <button onclick="location.reload()" style="background:#555; color:white; border:none; padding:12px; border-radius:5px; cursor:pointer; margin-left:10px;">लॉगआउट</button>
-    </div>
-
-    <div id="dashboard-area">
-        <div class="stats-grid">
-            <div class="stat-card"><h3>कुल सन्दर्भ</h3><div style="font-size:24px; color:var(--maroon);">124</div></div>
-            <div class="stat-card"><h3>निस्तारित</h3><div style="font-size:24px; color:green;">98</div></div>
-            <div class="stat-card"><h3>लम्बित</h3><div style="font-size:24px; color:orange;">26</div></div>
+    <div class="main-content">
+        <div class="header">
+            <h1 style="color: var(--maroon); margin: 0;">Admin Control Panel</h1>
+            <div style="text-align: right;">
+                <strong>Date:</strong> 27 April 2026<br>
+                <span style="color: var(--skyblue);">Admin Logged In</span>
+            </div>
         </div>
 
-        <div style="margin-top:20px;">
-            <h3 style="background:var(--maroon); color:white; padding:10px; border-radius:5px;">लाइव डेटा रिपोर्ट (Google Sheets)</h3>
-            <iframe src="https://docs.google.com/spreadsheets/d/e/YOUR_SHEET_ID/pubhtml?widget=true&headers=false"></iframe>
+        <div class="admin-section">
+            <h3>Member Credentials & Directory</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Member Name</th>
+                        <th>Mobile Number</th>
+                        <th>Login Password</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody id="memberTable">
+                    <tr><td>1</td><td>Member One</td><td>+91 XXXXXXXX01</td><td>Pass@123</td><td><span class="badge">Active</span></td></tr>
+                    <tr><td>2</td><td>Member Two</td><td>+91 XXXXXXXX02</td><td>Pass@456</td><td><span class="badge">Active</span></td></tr>
+                    <tr><td>3</td><td>Member Three</td><td>+91 XXXXXXXX03</td><td>Pass@789</td><td><span class="badge">Active</span></td></tr>
+                    <tr><td>4</td><td>Member Four</td><td>+91 XXXXXXXX04</td><td>Pass@101</td><td><span class="badge">Active</span></td></tr>
+                    <tr><td>5</td><td>Member Five</td><td>+91 XXXXXXXX05</td><td>Pass@102</td><td><span class="badge">Active</span></td></tr>
+                    <tr><td>6</td><td>Member Six</td><td>+91 XXXXXXXX06</td><td>Pass@103</td><td><span class="badge">Active</span></td></tr>
+                    <tr><td>7</td><td>Member Seven</td><td>+91 XXXXXXXX07</td><td>Pass@104</td><td><span class="badge">Active</span></td></tr>
+                    <tr><td>8</td><td>Member Eight</td><td>+91 XXXXXXXX08</td><td>Pass@105</td><td><span class="badge">Active</span></td></tr>
+                    <tr><td>9</td><td>Member Nine</td><td>+91 XXXXXXXX09</td><td>Pass@106</td><td><span class="badge">Active</span></td></tr>
+                    <tr><td>10</td><td>Member Ten</td><td>+91 XXXXXXXX10</td><td>Pass@107</td><td><span class="badge">Active</span></td></tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-</div>
-
-<script>
-    // --- यहाँ अपने पासवर्ड सेट करें ---
-    const users = {
-        "admin": "ADMIN123",
-        "member1": "PASS1"
-    };
-
-    function validateLogin() {
-        const u = document.getElementById('user').value;
-        const p = document.getElementById('pass').value;
-        if(users[u] && users[u] === p) {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-wrapper').style.display = 'block';
-            document.getElementById('welcome-msg').innerText = "स्वागत है, " + u;
-        } else {
-            alert("गलत जानकारी!");
-        }
-    }
-
-    function toggleDashboard() {
-        const dash = document.getElementById('dashboard-area');
-        const btn = document.getElementById('toggleBtn');
         
-        if (dash.style.display === "none" || dash.style.display === "") {
-            dash.style.display = "block";
-            btn.innerText = "डैशबोर्ड छिपाएं (Hide Dashboard)";
-            btn.style.background = "#dc3545"; // Red color when open
-        } else {
-            dash.style.display = "none";
-            btn.innerText = "डैशबोर्ड खोलें (Open Dashboard)";
-            btn.style.background = "#28a745"; // Green color when closed
-        }
-    }
-</script>
+        <p style="margin-top: 20px; font-size: 0.9rem; color: #666; text-align: center;">
+            &copy; 2026 Mission SHANTI-KI-AUR - Service to Humanity
+        </p>
+    </div>
 
 </body>
 </html>
