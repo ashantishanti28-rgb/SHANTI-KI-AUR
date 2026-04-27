@@ -1,49 +1,57 @@
 
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamara Uddeshya - Admin Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .gradient-admin { background: linear-gradient(135deg, #800000 0%, #a52a2a 100%); }
-        .hidden { display: none; }
-        .logo-ring { border: 3px double #800000; padding: 5px; border-radius: 50%; background: white; }
-    </style>
-</head>
-<body class="bg-[#fdfcf0] font-sans min-h-screen">
+ <script>
+        const ALLOWED_USERS = { 
+            "9568111616": "admin786", 
+            "9927963150": "sunil786" 
+        };
 
-    <div id="loginSection" class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm border-2 border-[#D4AF37] text-center">
-            <img src="https://ashantishanti28-rgb.github.io/SHANTI-KI-AUR/1777210190036.png" alt="Logo" class="w-24 h-24 mx-auto mb-4 logo-ring">
-            <h1 class="text-xl font-bold text-[#800000] uppercase">Hamara Uddeshya</h1>
-            <div class="space-y-4 mt-6">
-                <input type="tel" id="userMobile" placeholder="Mobile Number" class="w-full p-4 border rounded-xl text-center font-bold outline-none focus:border-red-800">
-                <input type="password" id="userPass" placeholder="Password" class="w-full p-4 border rounded-xl text-center outline-none focus:border-red-800">
-                <button onclick="checkLogin()" class="w-full gradient-admin text-white font-bold py-4 rounded-xl shadow-lg uppercase">Login</button>
-                <p id="loginError" class="text-red-600 text-[10px] hidden font-bold">Galat Number ya Password!</p>
-            </div>
-        </div>
-    </div>
+        let loggedInMobile = "";
 
-    <div id="portalSection" class="hidden">
-        <header class="gradient-admin text-white p-4 shadow-xl flex justify-between items-center border-b-4 border-[#D4AF37]">
-            <h1 class="text-sm font-bold uppercase">MISSION DASHBOARD</h1>
-            <button onclick="location.reload()" class="bg-white text-red-900 px-3 py-1 rounded text-[10px] font-black">LOGOUT</button>
-        </header>
+        function checkLogin() {
+            const m = document.getElementById('userMobile').value;
+            const p = document.getElementById('userPass').value;
+            if (ALLOWED_USERS[m] && ALLOWED_USERS[m] === p) {
+                loggedInMobile = m;
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('portalSection').classList.remove('hidden');
+                if (m === "9568111616") {
+                    document.getElementById('adminPanel').classList.remove('hidden');
+                }
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        }
 
-        <main class="max-w-md mx-auto p-4 mt-4">
-            <div id="entryBox" class="bg-white rounded-3xl shadow-xl p-6 border-t-8 border-[#800000]">
-                <h2 class="text-center font-bold text-red-900 mb-4 uppercase text-xs">Nayi Shikayat Register Karein</h2>
-                <form id="entryForm" class="space-y-4">
-                    <input type="tel" id="mobile" placeholder="Pariwadi Mobile" class="w-full p-4 border rounded-xl" required>
-                    <textarea id="message" rows="3" class="w-full p-4 border rounded-xl" placeholder="Vivad ki detail..." required></textarea>
-                    <button type="submit" id="submitBtn" class="w-full gradient-admin text-white font-bold py-4 rounded-xl">SAVE DATA</button>
-                </form>
-                
-                <div id="adminPanel" class="hidden mt-6 border-t pt-4">
-                    <button onclick="showMembers()" class="w-full bg-blue-900 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-widest shadow-md">Member List Dekhein (Admin)</button>
-                </div>
-            </div>
-            
+        function showMembers() {
+            document.getElementById('entryBox').classList.add('hidden');
+            document.getElementById('memberListView').classList.remove('hidden');
+        }
+
+        function hideMembers() {
+            document.getElementById('entryBox').classList.remove('hidden');
+            document.getElementById('memberListView').classList.add('hidden');
+        }
+
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwK_RCqXqXDUFTJcRCbBuMj3UaduwUjVfNfOCk9sL8jtQD98gn6mn_PSqA7S3EaYNaH/exec';
+
+        document.getElementById('entryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true; btn.innerHTML = 'SAVING...';
+            fetch(scriptUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({
+                    team: loggedInMobile,
+                    mobile: document.getElementById('mobile').value,
+                    message: document.getElementById('message').value
+                })
+            }).then(() => {
+                alert('✅ Data Save Ho Gaya!');
+                document.getElementById('entryForm').reset();
+                btn.disabled = false; btn.innerHTML = 'SAVE DATA';
+            });
+        });
+    </script>
+</body>
+</html
