@@ -3,93 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mission Control - Hamara Uddeshya</title>
+    <title>GURU SHAHU G | Master Control Room</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .bg-maroon { background-color: #800000; }
-        .text-maroon { color: #800000; }
-        .admin-box { border: 2px solid #800000; background: #fff5f5; border-radius: 15px; padding: 15px; }
+        :root { --primary: #1a2a6c; --secondary: #b21f1f; --accent: #fdbb2d; }
+        body { background-color: #f0f4f8; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        .admin-only { display: none !important; }
+        .modal { display: none; position: fixed; z-index: 9000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); }
+        .modal-content { background: white; margin: 5% auto; padding: 30px; border-radius: 40px; width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto; }
+        .header-gradient { background: linear-gradient(90deg, #1a2a6c, #b21f1f); }
+        .progress-bar-red { background-color: #ef4444; }
+        .progress-bar-green { background-color: #22c55e; }
     </style>
 </head>
-<body class="bg-gray-50">
-    <div id="loginSection" class="min-h-screen flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border-t-8 border-maroon p-8">
-            <img src="https://ashantishanti28-rgb.github.io/SHANTI-KI-AUR/1777210190036.png" class="w-20 h-20 mx-auto rounded-full mb-4 border shadow">
-            <h2 class="text-xl font-black text-maroon text-center uppercase mb-6">मिशन लॉगिन</h2>
-            <input type="tel" id="userMobile" class="w-full p-4 border-2 rounded-2xl mb-4 font-bold text-center" placeholder="MOBILE NUMBER">
-            <input type="password" id="userPass" class="w-full p-4 border-2 rounded-2xl mb-6 text-center" placeholder="PASSWORD">
-            <button onclick="checkLogin()" class="w-full bg-maroon text-white font-black py-4 rounded-2xl shadow-xl uppercase">प्रवेश करें</button>
+<body class="flex">
+
+<div id="loginSection" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[#1a2a6c] p-4">
+    <div class="bg-white rounded-[50px] shadow-2xl w-full max-w-sm overflow-hidden border-b-[12px] border-red-800">
+        <div class="bg-slate-900 text-white p-10 text-center">
+            <h2 class="text-3xl font-black uppercase tracking-tighter">GURU SHAHU G</h2>
+            <p class="text-[10px] text-yellow-400 font-bold uppercase tracking-[5px] mt-2">मिशन कंट्रोल रूम</p>
+        </div>
+        <div class="p-10 space-y-5">
+            <input type="tel" id="userMobile" class="w-full p-4 border-2 rounded-2xl text-center font-bold outline-none" placeholder="मोबाइल नंबर">
+            <input type="password" id="userPass" class="w-full p-4 border-2 rounded-2xl text-center font-bold outline-none" placeholder="पासवर्ड">
+            <div class="flex items-center space-x-2 bg-gray-50 p-2 border rounded-2xl">
+                <div id="captchaBox" class="bg-red-800 text-white px-4 py-2 font-black italic rounded-xl"></div>
+                <input type="number" id="captchaInput" class="w-full p-1 bg-transparent text-center font-bold outline-none" placeholder="जोड़ें">
+            </div>
+            <button onclick="checkLogin()" class="w-full bg-[#1a2a6c] text-white font-black py-5 rounded-2xl shadow-xl hover:bg-black transition-all uppercase">प्रवेश करें</button>
         </div>
     </div>
-    <div id="portalSection" class="hidden min-h-screen flex flex-col">
-        <header class="bg-maroon text-white p-4 flex justify-between items-center border-b-4 border-gray-300 shadow-lg">
-            <h1 class="text-xs font-black uppercase">मिशन कंट्रोल रूम</h1>
-            <button onclick="location.reload()" class="bg-white text-maroon text-[9px] font-black px-3 py-1 rounded-full">LOGOUT</button>
+</div>
+
+<div id="dashboardSection" class="hidden flex w-full">
+    <div class="sidebar hidden lg:block sticky top-0 bg-slate-900 w-[280px] min-height-screen shadow-2xl">
+        <div class="p-8 text-center border-b border-white/10 text-white font-black text-xl tracking-widest">MENU</div>
+        <nav class="mt-8 px-6 space-y-4">
+            <button class="w-full text-left p-4 text-white bg-white/10 rounded-2xl font-bold"><i class="fa fa-home me-3 text-accent"></i> डैशबोर्ड</button>
+            <button onclick="toggleModal('reportModal')" class="admin-only w-full text-left p-4 text-green-400 hover:bg-white/5 rounded-2xl border-l-4 border-green-500 font-bold"><i class="fa fa-chart-bar me-3"></i> प्रोग्रेस चार्ट</button>
+            <button onclick="toggleModal('historyModal')" class="admin-only w-full text-left p-4 text-blue-300 hover:bg-white/5 rounded-2xl border-l-4 border-blue-500 font-bold"><i class="fa fa-history me-3"></i> मासिक इतिहास</button>
+            <button onclick="location.reload()" class="w-full text-left p-4 text-red-400 hover:bg-red-900/20 rounded-2xl font-bold mt-20"><i class="fa fa-power-off me-3"></i> लॉगआउट</button>
+        </nav>
+    </div>
+
+    <div class="flex-1 flex flex-col min-h-screen">
+        <header class="header-gradient p-6 text-white shadow-xl flex justify-between items-center">
+            <div class="text-xs font-black uppercase tracking-[2px]">GURU SHAHU G : डिजिटल न्याय केंद्र</div>
+            <div id="welcomeUser" class="text-[10px] font-black px-5 py-2 bg-black/20 rounded-full border border-white/10"></div>
         </header>
-        <main class="p-4 space-y-6 max-w-7xl mx-auto w-full">
-            <div id="adminPanel" class="hidden admin-box">
-                <h3 class="text-maroon font-black text-xs uppercase mb-3">टीम (10 मेम्बर्स)</h3>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-2" id="memberGrid"></div>
-            </div>
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border">
-                <div class="bg-gray-50 p-4 border-b flex justify-between items-center">
-                    <h3 class="text-xs font-black text-maroon uppercase">शिकायत विवरण</h3>
-                    <button onclick="loadData()" class="text-[10px] font-bold text-blue-600">REFRESH</button>
+
+        <main class="p-8">
+            <div class="admin-only bg-slate-900 p-10 rounded-[50px] shadow-2xl border-b-8 border-yellow-500 mb-10 text-center relative">
+                <h3 class="text-yellow-400 font-black text-xs uppercase tracking-[6px] mb-6">संपूर्ण मिशन सफलता रिपोर्ट</h3>
+                <div class="inline-block relative mb-8">
+                    <h1 class="text-white text-7xl font-black italic">92<span class="text-yellow-400 text-3xl">%</span></h1>
+                    <p class="text-green-400 text-[10px] font-black uppercase tracking-widest mt-2">संतुष्ट समाज</p>
                 </div>
-                <div class="overflow-x-auto text-[11px]">
-                    <table class="w-full text-left">
-                        <thead class="bg-slate-50 text-gray-500 font-black border-b">
-                            <tr><th class="p-4">दिनांक</th><th class="p-4">मोबाइल</th><th class="p-4">मेम्बर</th><th class="p-4">विवरण</th></tr>
-                        </thead>
-                        <tbody id="caseList" class="divide-y italic"></tbody>
-                    </table>
+                <div class="max-w-xl mx-auto space-y-2">
+                    <div class="flex justify-between text-[10px] font-black text-white uppercase px-2">
+                        <span class="text-green-400">कार्य पूर्ण: 92%</span>
+                        <span class="text-red-400">कार्य शेष: 08%</span>
+                    </div>
+                    <div class="w-full h-5 bg-red-600 rounded-full flex overflow-hidden border-2 border-white/10 shadow-inner">
+                        <div class="bg-green-500 h-full" style="width: 92%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-[35px] shadow-lg border-t-4 border-blue-600 text-center">
+                    <p class="text-[10px] text-gray-400 font-black uppercase">आज प्राप्त</p>
+                    <h2 class="text-3xl font-black text-slate-800 mt-1">45</h2>
+                </div>
+                <div class="bg-white p-6 rounded-[35px] shadow-lg border-t-4 border-green-600 text-center">
+                    <p class="text-[10px] text-gray-400 font-black uppercase">निस्तारित</p>
+                    <h2 class="text-3xl font-black text-green-600 mt-1">3,779</h2>
+                </div>
+                <div class="admin-only bg-white p-6 rounded-[35px] shadow-lg border-t-4 border-orange-500 text-center">
+                    <p class="text-[10px] text-orange-600 font-black uppercase">लंबित</p>
+                    <h2 class="text-3xl font-black text-slate-800 mt-1">20</h2>
+                </div>
+                <div class="admin-only bg-white p-6 rounded-[35px] shadow-lg border-t-4 border-red-600 text-center">
+                    <p class="text-[10px] text-red-600 font-black uppercase">डिफ़ॉल्टर</p>
+                    <h2 class="text-3xl font-black text-slate-800 mt-1">0</h2>
+                </div>
+            </div>
+
+            <div id="memberArea" class="bg-white p-10 rounded-[50px] shadow-2xl border border-gray-100">
+                <h3 class="text-primary font-black text-sm uppercase mb-8 tracking-widest border-b pb-4">सक्रिय कार्य सूची (Your Tasks)</h3>
+                <div id="taskList" class="space-y-6">
+                    <div class="bg-gray-50 p-6 rounded-[30px] border border-gray-200 shadow-sm">
+                        <div class="flex justify-between text-[11px] font-black text-blue-800 mb-4 uppercase">
+                            <span>ID: REF-102544</span>
+                            <span>दिनांक: 28-Apr-2026</span>
+                        </div>
+                        <p class="text-sm font-bold text-slate-700 leading-relaxed mb-6">"ग्राम पंचायत में सफाई की व्यवस्था खराब है, नाले भरे हुए हैं।"</p>
+                        <div class="flex gap-4">
+                            <button onclick="confirmAction('resolve')" class="flex-1 bg-green-600 text-white py-4 rounded-2xl font-black text-[10px] uppercase shadow-lg">निस्तारित करें</button>
+                            <button onclick="toggleModal('escalateModal')" class="flex-1 bg-orange-500 text-white py-4 rounded-2xl font-black text-[10px] uppercase shadow-lg">गुरु जी को भेजें</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
-    <script>
-        const TEAM_MEMBERS = {
-            "9568111616": { name: "GURU JI", pass: "admin786", role: "ADMIN" },
-            "9927963150": { name: "SUNIL JI", pass: "sunil786", role: "MEMBER" },
-            "9456238253": { name: "RAJ", pass: "pass: "RAJ123", role: "MEMBER" },
-            "9000000002": { name: "MEMBER 4", pass: "pass004", role: "MEMBER" },
-            "9000000003": { name: "MEMBER 5", pass: "pass005", role: "MEMBER" },
-            "9000000004": { name: "MEMBER 6", pass: "pass006", role: "MEMBER" },
-            "9000000005": { name: "MEMBER 7", pass: "pass007", role: "MEMBER" },
-            "9000000006": { name: "MEMBER 8", pass: "pass008", role: "MEMBER" },
-            "9000000007": { name: "MEMBER 9", pass: "pass009", role: "MEMBER" },
-            "9000000008": { name: "MEMBER 10", pass: "pass010", role: "MEMBER" }
-        };
-        let loggedInUser = ""; let isAdmin = false;
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbxhEPyu7wNh77vVbQPd9O5bzpjbTNDa9HX3l8Y-aRv1J1UnXJ5Tr1aCGL8a94/exec';
-        function checkLogin() {
-            const m = document.getElementById('userMobile').value;
-            const p = document.getElementById('userPass').value;
-            if (TEAM_MEMBERS[m] && TEAM_MEMBERS[m].pass === p) {
-                loggedInUser = m; isAdmin = (TEAM_MEMBERS[m].role === "ADMIN");
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('portalSection').classList.remove('hidden');
-                if(isAdmin) { document.getElementById('adminPanel').classList.remove('hidden'); renderGrid(); }
-                loadData();
-            } else { alert("Error!"); }
-        }
-        function renderGrid() {
-            const grid = document.getElementById('memberGrid'); grid.innerHTML = "";
-            for (let mob in TEAM_MEMBERS) {
-                grid.innerHTML += `<div class="bg-white p-2 border rounded shadow-sm text-center"><p class="text-[9px] font-black text-maroon">${TEAM_MEMBERS[mob].name}</p><p class="text-[8px] text-gray-500">${mob}</p></div>`;
+</div>
+
+<div id="reportModal" class="modal">
+    <div class="modal-content shadow-2xl">
+        <h2 class="text-primary font-black text-xl border-b-2 pb-4 mb-6 uppercase italic">मेंबर्स कार्य कुशलता (%)</h2>
+        <div class="space-y-8" id="memberStats">
+            <div class="bg-slate-50 p-6 rounded-[30px]">
+                <div class="flex justify-between font-black text-xs uppercase mb-3">
+                    <span class="text-primary">1. SUNIL JI</span>
+                    <span class="text-green-600">संतुष्टि: 94%</span>
+                </div>
+                <div class="flex justify-between text-[9px] font-black text-gray-500 mb-2">
+                    <span>पूर्ण: 75%</span>
+                    <span>शेष: 25%</span>
+                </div>
+                <div class="w-full h-5 bg-red-600 rounded-full flex overflow-hidden border-2 border-white shadow-inner">
+                    <div class="bg-green-500 h-full" style="width: 75%"></div>
+                </div>
+            </div>
+            </div>
+        <button onclick="toggleModal('reportModal')" class="w-full mt-8 bg-primary text-white py-4 rounded-2xl font-black uppercase tracking-widest">डैशबोर्ड पर जाएँ</button>
+    </div>
+</div>
+
+<div id="escalateModal" class="modal">
+    <div class="modal-content text-center">
+        <i class="fa fa-paper-plane text-orange-500 text-5xl mb-6"></i>
+        <h2 class="text-primary font-black text-xl mb-4 uppercase">विशेष सुनवाई हेतु प्रेषण</h2>
+        <p class="text-xs text-gray-500 font-bold mb-6">कृपया गुरु जी को भेजने का कारण स्पष्ट करें:</p>
+        <textarea id="escReason" class="w-full p-4 bg-gray-50 border rounded-2xl text-xs font-bold mb-6 outline-none h-32" placeholder="कारण यहाँ लिखें..."></textarea>
+        <button onclick="sendToGuruJi()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-black uppercase shadow-xl">गुरु जी को प्रेषित करें</button>
+        <button onclick="toggleModal('escalateModal')" class="mt-4 text-gray-400 font-bold text-[10px] uppercase tracking-widest">रद्द करें</button>
+    </div>
+</div>
+
+<script>
+    // --- पासवर्ड और मेंबर्स डेटा ---
+    const USER_DB = {
+        "9568111616": { name: "GURU JI", role: "ADMIN", pass: "admin786" },
+        "0927063150": { name: "SUNIL JI", role: "MEMBER", pass: "sunil786" },
+        "9456238253": { name: "RAJ", role: "MEMBER", pass: "raj123" }
+    };
+
+    let captchaCode;
+
+    function genCaptcha() {
+        const n1 = Math.floor(Math.random() * 10);
+        const n2 = Math.floor(Math.random() * 5);
+        captchaCode = n1 + n2;
+        document.getElementById('captchaBox').innerText = n1 + " + " + n2 + " = ?";
+    }
+
+    function checkLogin() {
+        const mob = document.getElementById('userMobile').value;
+        const pass = document.getElementById('userPass').value;
+        const cap = document.getElementById('captchaInput').value;
+
+        if (parseInt(cap) !== captchaCode) { alert("गलत कैप्चा!"); genCaptcha(); return; }
+
+        const user = USER_DB[mob];
+        if (user && user.pass === pass) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'flex';
+            document.getElementById('welcomeUser').innerText = "अधिकारी: " + user.name + " (" + user.role + ")";
+
+            if (user.role === "ADMIN") {
+                document.querySelectorAll('.admin-only').forEach(e => e.setAttribute('style', 'display:block !important'));
+                document.getElementById('memberArea').style.display = 'none';
             }
+        } else {
+            alert("गलत मोबाइल या पासवर्ड!");
+            genCaptcha();
         }
-        async function loadData() {
-            const list = document.getElementById('caseList'); list.innerHTML = "<tr><td colspan='4' class='p-10 text-center font-bold'>Loading...</td></tr>";
-            try {
-                const response = await fetch(`${scriptUrl}?action=read&user=${loggedInUser}&admin=${isAdmin}`);
-                const data = await response.json(); list.innerHTML = "";
-                data.reverse().forEach(item => {
-                    list.innerHTML += `<tr><td class="p-4 text-gray-500 font-bold">${new Date(item.timestamp).toLocaleDateString()}</td><td class="p-4 font-black text-maroon">${item.mobile}</td><td class="p-4 text-blue-700 font-bold">${item.team}</td><td class="p-4">${item.message}</td></tr>`;
-                });
-            } catch (e) { list.innerHTML = "<tr><td colspan='4' class='p-10 text-center'>Connection Error</td></tr>"; }
-        }
-    </script>
+    }
+
+    function toggleModal(id) {
+        const m = document.getElementById(id);
+        m.style.display = (m.style.display === "block") ? "none" : "block";
+    }
+
+    function sendToGuruJi() {
+        const reason = document.getElementById('escReason').value;
+        if(!reason) return alert("कारण लिखना अनिवार्य है!");
+        alert("यह शिकायत गुरु जी के 'विशेष निस्तारण' कॉलम में भेज दी गई है।");
+        toggleModal('escalateModal');
+    }
+
+    window.onload = genCaptcha;
+</script>
 </body>
 </html>
